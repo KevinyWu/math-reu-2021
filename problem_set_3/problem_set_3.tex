@@ -1,0 +1,275 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{standalone}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\setlength{\parskip}{1em}
+
+%------------tikz Setup------------
+
+\tikzstyle{ball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=1.3pt]
+\tikzstyle{miniball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=0.5pt]
+\tikzstyle{mminiball} = [circle,shading=ball, ball color=black,
+    minimum size=0.6mm,inner sep=0.1pt]
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{angles, quotes}
+\tikzset{>={Latex[length=2mm,width=1.5mm]}}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{arrows.meta,calc}
+\usetikzlibrary{bending}
+\usetikzlibrary{decorations.markings,shapes.geometric}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\tikzset{-|-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{stealth}}},postaction={decorate}}}
+\tikzset{movearrow/.style 2 args ={
+        decoration={markings,
+    mark= at position {#1} with {\arrow{#2}} ,
+        },
+        postaction={decorate}
+    }
+}
+
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\title{REU 2021 - Problem Set 3}
+\author{Kevin Y. Wu}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+
+\section{Problem 1. Euler's function}
+Le $n=p_1^{\alpha_1}p_2^{\alpha_2}...p_k^{\alpha_k}$ be the prime factorization of $n$ and $\varphi(n)$ be the number of integers from $1$ to $n$, which are coprime to $n$. Prove that
+\[\varphi(n)=n\left (1-\frac{1}{p_1}\right )\left (1-\frac{1}{p_2}\right )...\left (1-\frac{1}{p_k}\right ).\]
+\begin{proof}
+We begin by counting the number of integers from $1$ to $n$ which are not coprime to $n$. For each $p_i$, there are $\frac{n}{p_i}$ integers less that or equal to $n$ which are divisible by $p_i$. We can sum $\frac{n}{p_i}$ for each prime factor to obtain the expression
+\[\frac{n}{p_1}+\frac{n}{p_2}+\dots+\frac{n}{p_k}=\sum_{i=1}^k\frac{n}{p_i}.\]
+\par However, we are over counting, so we then want to subtract the number of integers $1$ to $n$ which are divisible by $p_{i_1}$ and $p_{i_2}$, which is equal to
+\[\sum_{1\leq i_1\leq i_2\leq k}\frac{n}{p_{i_1}p_{i_2}}.\]
+\par Continuing by the principle of inclusion-exclusion from problem 4 of Problem Set 2, we get that the number satisfying none of these properties (each property being divisibility by a prime factor of $n$), we obtain the expression
+\begin{align*}
+    \varphi(n)&=n-\left (\sum_{1\leq i\leq k} \frac{n}{p_i}-\sum_{1\leq i_1\leq i_2\leq k}\frac{n}{p_{i_1}p_{i_2}}+\dots +(-1)^{k+1}\frac{n}{p_1p_2\dots p_k}\right )\\
+    &=n\left (1-\sum_{1\leq i\leq k} \frac{1}{p_i}+\sum_{1\leq i_1\leq i_2\leq k}\frac{1}{p_{i_1}p_{i_2}}+\dots +(-1)^{k+1}\frac{1}{p_1p_2\dots p_k}\right )\\
+    &=n\left (1-\frac{1}{p_1}\right )\left (1-\frac{1}{p_2}\right )...\left (1-\frac{1}{p_k}\right )
+\end{align*}
+as desired.
+\end{proof}
+
+
+\section{Problem 2.}
+Is it possible to draw $9$ segments in the plane, so that each of them intersects exactly five other segments?
+
+\par No. In the case that each segment intersects exactly five others, there are $9\times 5$ intersections. However, each of these is double counted, so there are $\frac{45}{2}$ intersections, which is not an integer amount.
+
+\section{Problem 3.}
+Consider a regular polygon with vertices $A_1,A_2,...,A_n$ and center $O$. Prove that 
+\[\overrightarrow{OA_1}+\overrightarrow{OA_2}+...+\overrightarrow{OA_n}=0.\]
+
+\begin{figure}[h]
+    \centering
+    \input{images/3}
+    \caption{Regular polygon, $n=8$}
+\end{figure}
+
+\begin{proof}
+Denote the vector sum $\overrightarrow{s}=\overrightarrow{OA_1}+\overrightarrow{OA_2}+...+\overrightarrow{OA_n}$. Then by the nature of a regular polygon, we can rotate the polygon $\frac{2\pi}{n}$ radians so that the rotate image overlaps with the new image. Thus, the new vector sum $\overrightarrow{s}'$ must be the same as $\overrightarrow{s}$. Only the zero vector remains constant when rotating by $\frac{2\pi}{n}, n\neq 1$, so $\overrightarrow{s}$ must equal $0$.
+\end{proof}
+
+
+\section{Problem 4.}
+Suppose that $G$ is a group and $S\subset G$ is a finite subset, such that if $x,y\in S$, then $xy\in S$. Prove that $S$ is a subgroup of $G$.
+\begin{proof}
+We will prove that $S$ satisfies the properties of a subgroup.
+\begin{enumerate}[label=(\arabic*)]
+    \item Closure. By the problem statement, we already have the condition that if $x,y\in S$, then $xy\in S$.
+    \item Identity. Suppose $e\notin S$. Then for $x\in S$, the set $H=\{x, x^2, x^3\dots \}\subset S$. However, $H$ is infinite and $S$ is finite, a contradiction. Hence, $e\in S$.
+    \item Inverse. Let $x\in S$. Since $S$ is finite, for some $x^n \in S$, we must have $x^n=x$. Then $x^{n-1}=e$, and $x(x^{n-2})=e$. Hence, $x^{-1}=x^{n-2}\in S$.
+\end{enumerate}
+\par Thus, closure, existence of an identity, and existence of an inverse are all satisfied, and subset $S$ is a subgroup of $G$.
+\end{proof}
+
+
+\section{Problem 5.}
+\begin{enumerate}[label=(\alph*)]
+    \item Prove that the composition of a parallel transport and a central symmetry (in any order) is a central symmetry. \label{5a}
+    \begin{proof}
+    Consider a Cartesian plane in $\mathbb{R}^2$, and take any three arbitrary points $(a,b), (c,d), (e,f)$. Consider a parallel transport $T_{\overrightarrow{v}}$ and a central symmetry $S_O$, where $\overrightarrow{v}=(v_1,v_2)$ and point $O=(g,h)$. Then we need to show there exists a common point $O'$ such that $S_{O'}=T_{\overrightarrow{v}}\circ S_O$ and $S_{O'}=S_O\circ T_{\overrightarrow{v}}$. We will consider two cases.
+    \begin{enumerate}[label=(\arabic*)]
+        \item $S_{O'}=T_{\overrightarrow{v}}\circ S_O$. Then \begin{align*}
+            T_{\overrightarrow{v}}((a,b))=(a+v_1,b+v_2)\\ T_{\overrightarrow{v}}((c,d))=(c+v_1,d+v_2)\\
+            T_{\overrightarrow{v}}((e,f))=(e+v_1,f+v_2).
+        \end{align*}
+        Next, 
+        \begin{align*}
+            S_O((a+v_1,b+v_2))=(2g-a-v_1,2h-b-v_2)\\
+            S_O((c+v_1,d+v_2))=(2g-c-v_1,2h-d-v_2)\\
+            S_O((e+v_1,f+v_2))=(2g-e-v_1,2h-f-v_2).
+        \end{align*}
+        Thus,
+        \begin{align*}
+            O'&=\left(\frac{(2g-a-v_1)+a}{2},\frac{(2h-b-v_2)+b}{2}\right )\\
+            &=\left (\frac{(2g-c-v_1)+c}{2},\frac{(2h-d-v_2)+d}{2}\right )\\
+            &=\left (\frac{(2g-e-v_1)+e}{2},\frac{(2h-f-v_2)+f}{2}\right )\\
+            &=\left (\frac{2g-v_1}{2},\frac{2h-v_2}{2}\right )
+        \end{align*} as desired.
+        \item $S_{O'}=S_O\circ T_{\overrightarrow{v}}$. Then
+        \begin{align*}
+            S_O((a,b))=(2g-a,2h-b)\\
+            S_O((c,d))=(2g-c,2h-d)\\
+            S_O((e,f))=(2g-e,2h-f).
+        \end{align*}
+        Next, 
+        \begin{align*}
+            T_{\overrightarrow{v}}((2g-a,2h-b))=(2h-a+v_1,2h-b+v_2)\\ T_{\overrightarrow{v}}((2g-c,2h-d))=(2h-c+v_1,2h-d+v_2)\\
+            T_{\overrightarrow{v}}((2g-e,2h-f))=(2h-e+v_1,2h-f+v_2).
+        \end{align*}
+        Thus,
+        \begin{align*}
+            O'&=\left(\frac{(2g-a+v_1)+a}{2},\frac{(2h-b+v_2)+b}{2}\right )\\
+            &=\left (\frac{(2g-c+v_1)+c}{2},\frac{(2h-d+v_2)+d}{2}\right )\\
+            &=\left (\frac{(2g-e+v_1)+e}{2},\frac{(2h-f+v_2)+f}{2}\right )\\
+            &=\left (\frac{2g+v_1}{2},\frac{2h+v_2}{2}\right )
+        \end{align*} as desired.
+    \end{enumerate}
+    \end{proof}
+    \item Prove that if one reflects a point symmetrically over points $O_1,O_2,O_3$ and then reflects it symmetrically over the same points once again, the point returns back to its initial position.
+
+    \begin{figure}[ht]
+        \centering
+        \input{images/5b}
+        \caption{Sequence of reflections across $O_1, O_2, O_3$}
+    \end{figure}
+    
+    \begin{proof}
+    A central symmetry about a point $O$ is equivalent to a rotation of $\pi$ radians around the same point $O$. Hence, we can consider three central symmetries, $R_{O_1}^{\pi}, R_{O_2}^{\pi}, R_{O_3}^{\pi}$. We know from lecture 2.2 that
+    \[R_{O_1}^{\theta_1}\circ R_{O_2}^{\theta_2}=
+    \begin{cases}
+        R_{O_3}^{\theta_3} & \theta_1+\theta_2 \neq 2\pi k\\
+        T_{\overrightarrow{v}} & \theta_1+\theta_2 = 2\pi k.
+    \end{cases}\]
+    \par Thus, $R_{O_1}^{\pi}\circ (R_{O_2}^{\pi}\circ R_{O_3}^{\pi})=R_{O_1}^{\pi}\circ T_{\overrightarrow{v}}$.
+    \par We know from \ref{5a} that the composition of a central symmetry and a parallel transport is a central symmetry, so $R_{O_1}^{\pi}\circ T_{\overrightarrow{v}}=R_{O_4}^{\pi}$ for some fixed point $O_4$.
+    \par Then for some point $p$, we have 
+    \begin{align*}
+        (R_{O_1}^{\pi}\circ (R_{O_2}^{\pi}\circ R_{O_3}^{\pi}))^2(p) 
+        &=(R_{O_1}^{\pi}\circ T_{\overrightarrow{v}})^2(p)\\
+        &=(R_{O_4}^{\pi})^2(p)\\
+        &=\text{Id}(p)\\
+        &=p.
+    \end{align*}
+    \end{proof}
+    \item Consider three lines $a,b,c$ on the plane. Let $F=S_a\circ S_b\circ S_c$. Prove that $F\circ F$ is a parallel transport.
+    
+    \begin{figure}[ht]
+        \centering
+        \input{images/5c}
+        \caption{$F\circ F=(S_a\circ S_b\circ S_c)^2$}
+    \end{figure}
+    
+    \begin{proof}
+    By problem 3 of Problem Set 4, the composition of three reflections is a sliding symmetry. Therefore, we can let $F=S_d\circ T_{\overrightarrow{v}}=T_{\overrightarrow{v}}\circ S_d$ for some line $d$ and some vector $\overrightarrow{v}$. Thus,
+    \[F\circ F=(T_{\overrightarrow{v}}\circ S_d)\circ (S_d\circ T_{\overrightarrow{v}})=T_{\overrightarrow{v}}\circ T_{\overrightarrow{v}}=T_{\overrightarrow{2v}}\]
+    which is a parallel transport, as desired.
+    \end{proof}
+\end{enumerate}
+
+
+\section{Problem 6.}
+Prove that a bounded figure in $\mathbb{R}^2$ cannot have more than one center of symmetry. A bounded figure is any subset of $\mathbb{R}^2$, contained in sufficiently large disc.
+\begin{proof}
+Suppose there are two centers of symmetry, $A\neq B$. Then consider the line $\overleftrightarrow{AB}$, which must pass through two points on the figure, call them $P_1$ and $P_2$, since the figure is bounded. Then $|P_1A|=|AP_2|=\frac{|P_1P_2|}{2}$ and $|P_1B|=|BP_2|=\frac{|P_1P_2|}{2}$. Hence, $|P_1A|=|P_1B|$ and $|AP_2|=|BP_2|$. Since $A$ and $B$ are on the same side of $P_1$ and on the same side of $P_2$, we must have $A=B$.
+\end{proof}
+
+
+\section{Problem 7.}
+Let S be a set with operation $\star: S\times S\rightarrow S$. Consider a number $A_n$ of ways to put brackets in an expression
+\[a_1\star a_2\star ...\star a_{n+1}.\tag{1}\label{1}\]
+For instance, $A_2=2$ because there are just two ways: $(a_1\star a_2)\star a_3$ and $a_1\star (a_2\star a_3)$.
+\begin{enumerate}[label=(\alph*)]
+    \item Compute $A_1,A_2,A_3,A_4$. \label{a}
+    \begin{enumerate}[label=(\roman*)]
+        \item $A_1=1$.
+        \\$a_1 \star a_2.$
+        \item $A_2=2$.
+        \\$(a_1\star a_2)\star a_3.$
+        \\$a_1\star (a_2\star a_3).$
+        \item $A_3=5$.
+        \\$(a_1 \star a_2) \star (a_3 \star a_4).$
+        \\$((a_1 \star a_2) \star a_3) \star a_4.$
+        \\$(a_1 \star (a_2 \star a_3)) \star a_4.$
+        \\$a_1 \star ((a_2 \star a_3) \star a_4).$
+        \\$a_1 \star (a_2 \star (a_3 \star a_4)).$
+        \item $A_4=14$.
+        \\$a_1 \star ((a_2 \star a_3) \star (a_4 \star a_5)).$
+        \\$a_1 \star (((a_2 \star a_3) \star a_4) \star a_5).$
+        \\$a_1 \star ((a_2 \star (a_3 \star a_4) \star a_5)).$
+        \\$a_1 \star (a_2 \star ((a_3 \star a_4) \star a_5)).$
+        \\$a_1 \star (a_2 \star (a_3 \star (a_4 \star a_5))).$
+        \\$(a_1 \star a_2) \star ((a_3 \star a_4) \star a_5).$
+        \\$(a_1 \star a_2) \star (a_3 \star (a_4 \star a_5)).$
+        \\$((a_1 \star a_2) \star a_3) \star (a_4 \star a_5).$
+        \\$(a_1 \star (a_2 \star a_3)) \star (a_4 \star a_5).$
+        \\$((a_1 \star a_2) \star (a_3 \star a_4)) \star a_5.$
+        \\$(((a_1 \star a_2) \star a_3) \star a_4) \star a_5.$
+        \\$((a_1 \star (a_2 \star a_3)) \star a_4) \star a_5.$
+        \\$(a_1 \star ((a_2 \star a_3) \star a_4)) \star a_5.$
+        \\$(a_1 \star (a_2 \star (a_3 \star a_4))) \star a_5.$
+    \end{enumerate}
+    \item Prove that $A_n=A_0A_{n-1}+A_1A_{n-2}+...+A_{n-1}A_0$. Deduce that $A_n=c_n$. 
+    \begin{proof}
+    We know $A_0=1$ and $A_1=1$. We will proceed by strong induction.
+    \par Base case. We have from \ref{a} that $A_2=A_0A_1+A_1A_0=1\times 1+1\times 1=2.$
+    \par Inductive step. Assume that the recursive formula holds for $1,2,\dots, n-1$. Then we can show that $A_n=A_0A_{n-1}+A_1A_{n-2}+...+A_{n-1}A_0$. We can analyze term by term. $A_iA_{n-1-i}$ first splits $a_1, a_2,\dots, a_{n+1}$ into two groups, $a_1,\dots,a_{i+1}$ and $a_{i+2},\dots,a_{n+1}$. By the inductive assumption, $A_i$ counts the number of ways to put brackets around the first group, and $A_{n-1-i}$ counts the number of ways to put brackets around the second. By the fundamental counting principle, $A_iA_{n-1-i}$ counts the total number of ways to put brackets around all elements for this grouping. Then,
+    \[\sum_{i=0}^{n-1} A_iA_{n-1-i}=A_0A_{n-1}+A_1A_{n-2}+...+A_{n-1}A_0=A_n.\]
+    represents the total number of ways to put brackets around all elements in all groupings.
+    \par Thus, the recursive formula for $A_n$ is the same as the recursive formula for $c_n$, and $A_0=c_0=A_1=c_1=1$, so $A_n=c_n$ for every $n$.
+    \end{proof}
+    \item Find an explicit bijection between ways to put brackets in \eqref{1} and triangulations of a convex $(n+2)-$gon.
+    \par Triangulations to brackets. Start by labelling the sides in order from $a_1$ to $a_{n+1}$, leaving one side unlabelled. Then, for each triangle, if two sides are labelled, then write the product of the two sides in brackets and label the third side with this product. Eventually, the final bracketed expression will appear on the side of the $(n+2)-$gon that originally had no label.
+    
+    \begin{figure}[ht]
+        \centering
+        \input{images/7c}
+        \caption{One map between triangulations and brackets for $n=4$}
+    \end{figure}
+
+    \par Brackets to triangulations. Start by labelling the sides in order from $a_1$ to $a_{n+1}$, leaving one side unlabelled. Start by locating pairs $(a_ia_{i+1})$ in the bracketed expression and draw lines to form a triangle with $a_i$ and $a_{i+1}$, labelling the new line with $(a_ia_{i+1})$. We can proceed by doing the same with larger expressions. Let $(x)$ and $(y)$ be bracketed expressions, then draw a line to create a triangle between sides labelled $(x)$ and $(y)$ if $((x)(y))$ is in the bracketed expression.
+\end{enumerate}
+
+
+\section{Problem 8. Sylvester’s theorem}
+Consider $n$ lines in the plane, not all of which pass through the same point. The lines are not all parallel. Prove that there exists a point in which exactly two of the lines intersect.
+\begin{proof}
+Let us prove the following dual statement: Let a finite set $S$ of points lie in the plane such that they are not all co-linear. Then there is a line that passes through exactly two of the points.
+\par For each line $\ell_i$ that passes through at least two points in $S$, let $d(p_i, \ell_i)$ be the perpendicular distance from each point $p_i$ to $\ell_i$. Suppose there exists a point $p$ and line $\ell$ such that $d$ is minimized, and let $p'$ be the perpendicular projection of $p$ onto $\ell$. We will show that $\ell$ passes through exactly two points in $S$ by contradiction.
+
+\begin{figure}[ht]
+    \centering
+    \input{images/8}
+    \caption{Sylvester's theorem}
+\end{figure}
+
+\par Assume that $S$ passes through at least three points in $S$. Then at least two of these, call them $a$ and $b$, lie on the same side of $p'$, with $a$ possibly coinciding with $p'$. Draw the line $m$ passing through $p$ and $b$, and let $a'$ be the perpendicular projection of $a$ onto $m$. Then $d(a,m)<d(p,\ell )$ since $\triangle bp'p\sim \triangle ba'a$, which contradicts our original assumption that $p$ and $\ell$ minimizes $d$.
+\par Thus, a line that passes though exactly two of the points exists, as desired.
+\end{proof}
+
+
+\end{document}

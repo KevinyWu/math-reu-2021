@@ -1,0 +1,80 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\usepackage{graphicx}  
+%------------tikz Setup------------
+
+\tikzstyle{ball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=1.3pt]
+\tikzstyle{miniball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=0.5pt]
+\tikzstyle{mminiball} = [circle,shading=ball, ball color=black,
+    minimum size=0.6mm,inner sep=0.1pt]
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{angles, quotes}
+\tikzset{>={Latex[length=2mm,width=1.5mm]}}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{arrows.meta,calc}
+\usetikzlibrary{bending}
+\usetikzlibrary{decorations.markings,shapes.geometric}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\tikzset{-|-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{stealth}}},postaction={decorate}}}
+\tikzset{movearrow/.style 2 args ={
+        decoration={markings,
+    mark= at position {#1} with {\arrow{#2}} ,
+        },
+        postaction={decorate}
+    }
+}
+
+
+\begin{document}
+\begin{tikzpicture}
+\begin{scope}[scale=4]
+    %lines
+    \draw [<->] (-1.8, 0) -- (0.5, 0);
+    \draw [<->] (-1.5, -0.75) -- (0.5, 0.25);
+    \draw [<->, dashed] (-1.5, 0.75) -- (0.5, -0.25);
+    \node[right] at (0.5, 0) {$\ell_1$};
+    \node[right] at (0.5, 0.25) {$\ell_2$};
+    \node[right] at (0.5, -0.25) {$\ell_2'$};
+    \node (o) at (0, -0) {};
+    %vectors
+    \node[ball,label={above right:$a_1$}] (a1) at (-0.5, 0) {};
+    \node[ball,label={below right:$a_2$}] (a2) at (-0.8, -0.4) {};
+    \node[ball,label={above:$a_2'$}] (a2') at (-0.8, 0.4) {};
+    \node[ball,label={above left:$a_3$}] (a3) at (-1.1, 0) {};
+    \node[ball,label={above left:$a_4$}] (a4) at (-1, -0.5) {};
+    \node[ball,label={below right:$a_3'$}] (a3') at (-0.66, -0.88) {};
+    \draw[->, dashed] (a1) to (a2');
+    \draw[->, dashed] (a2') to (a3);
+    \draw[->] (a1) to (a2);
+    \draw[->] (a2) to (a3);
+    \draw[->, dashed] (a2) -- (a3');
+    \draw[->, dashed] (a2) -- (a3');
+    \draw[->] (a3) to (a4);
+    \draw[->, dashed] (a3') to (a4);
+    % angle
+    \pic [draw,
+          angle radius=4mm, angle eccentricity=1.2,
+          "${\scriptstyle \theta}$"] {angle = a3--a1--a2};
+    \pic [draw,
+          angle radius=4mm, angle eccentricity=1.2,
+          "${\scriptstyle \theta}$"] {angle = a2'--a1--a3};
+    \pic [draw,
+          angle radius=4mm, angle eccentricity=1.2,] {angle = a3--a2--a4};
+    \pic [draw,
+          angle radius=5mm, angle eccentricity=1.2,
+          "${\scriptstyle \gamma}$"] {angle = a1--o--a2};
+    \node (x) at (-0.95, -0.35) {${\scriptscriptstyle \theta+\gamma}$};
+    %vector labels
+    \node (v1) at (-0.54, -0.18) {$\overrightarrow{v}_1$};
+    \node (v2) at (-0.87, -0.2) {$\overrightarrow{v}_2$};
+    \node (v3) at (-1.12, -0.23) {$\overrightarrow{v}_3$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

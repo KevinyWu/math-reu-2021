@@ -1,0 +1,56 @@
+\documentclass{standalone}
+\usepackage{tikz}
+%------------tikz Setup------------
+
+\tikzstyle{ball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=1.3pt]
+\tikzstyle{miniball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=0.5pt]
+\tikzstyle{mminiball} = [circle,shading=ball, ball color=black,
+    minimum size=0.6mm,inner sep=0.1pt]
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{angles, quotes}
+\tikzset{>={Latex[length=2mm,width=1.5mm]}}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{arrows.meta,calc}
+\usetikzlibrary{bending}
+\usetikzlibrary{decorations.markings,shapes.geometric}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\tikzset{-|-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{stealth}}},postaction={decorate}}}
+\tikzset{movearrow/.style 2 args ={
+        decoration={markings,
+    mark= at position {#1} with {\arrow{#2}} ,
+        },
+        postaction={decorate}
+    }
+}
+
+
+\begin{document}
+\begin{tikzpicture}
+\begin{scope}[scale=2.5]
+    %nodes
+    \node[ball,label={above:$p$}] (p) at (0, 1) {};
+    \node[ball,label={below:$p'$}] (p') at (0, 0) {};
+    \node[ball,label={below:$a$}] (a) at (1, 0) {};
+    \node[ball,label={below:$b$}] (b) at (2, 0) {};
+    \node[ball,label={above:$a'$}] (a') at (1.2, 0.4) {};
+    %right angles
+    \draw (0,0.13) -- (0.13,0.13) -- (0.13, 0);
+    \draw (1.14,0.3) -- (1.25,0.25) -- (1.3, 0.35);
+    %lines
+    \draw [<->] (-0.5,0) -- (2.5, 0);
+    \node[left] at (-0.5,0) {$\ell$};
+    \draw [dashed] (a) -- (a');
+    \node[left] at (0.8,0.8) {$m$};
+    %projections
+    \draw [dashed] (p) -- (p');
+    \draw [<->, dashed] (p) -- (b);
+\end{scope}
+\end{tikzpicture}
+\end{document}

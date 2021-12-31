@@ -1,0 +1,179 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\setlength{\parskip}{1em}
+
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\title{REU 2021 - Problem Set 1}
+\author{Kevin Y. Wu}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+
+\section{Problem 1.}
+We have discussed three ways to prove identities for binomial coefficients: induction, combinatorial bijection, and binomial formula. Try these three approaches on the following identities.
+\begin{enumerate}[label=(\alph*)]
+    \item $\binom{r}{m}\binom{m}{k}=\binom{r}{k}\binom{r-k}{m-k}$ 
+    \begin{proof}
+    The expression $\binom{r}{m}\binom{m}{k}$ splits the set $R$ of size $r$ into three disjoint subsets of size $r-m$, $m-k$, and $k$, first by removing $m$ elements from $R$, then removing $k$ elements from $M$, where $M \subseteq R$ is a subset of size $m$.
+    \par The expression $\binom{r}{k}\binom{r-k}{m-k}$ splits the set $R$ of size $r$ into three disjoint subsets of size $k$, $m-k$, and $r-m$, first by removing $k$ elements from $R$, then removing $m-k$ elements from $G$, where $G \subseteq R$ is a subset of size $r-k$, which leaves a subset of size $r-m$.
+    \par Hence, there exists a bijection between $\binom{r}{m}\binom{m}{k}$ and $\binom{r}{k}\binom{r-k}{m-k}$, so the expressions are equal.
+    \end{proof}
+    \item $\binom{n}{0}^2+\binom{n}{1}^2+...+\binom{n}{n}^2=\binom{2n}{n}$
+    \begin{proof}
+    We have that $|\binom{n}{k}|=|\binom{n}{n-k}|$, so there exists a bijection between $\binom{n}{k}$ and $\binom{n}{n-k}$. One can visualize this fact by noting that selecting $k$ items from $n$ items is the same is a selecting $n-k$ items to exclude from $n$ items. 
+    \par The expression $\binom{2n}{n}$ is equivalent to splitting the $2n$ items into two piles of $n$ items and counting every way of selecting $k$ items from one pile and $n-k$ items from the other pile. Hence, we have
+    \begin{align*}
+        \sum_{k=0}^{n} \binom{n}{k}\binom{n}{n-k}
+        &=\sum_{k=0}^{n}\binom{n}{k}\binom{n}{k}\\
+        &=\sum_{k=0}^{n}\binom{n}{k}^2\\
+        &=\binom{n}{0}^2+\binom{n}{1}^2+...+\binom{n}{n}^2\\
+        &=\binom{2n}{n}.
+    \end{align*}
+    \end{proof}
+    \item $\binom{n}{0}\binom{m}{k}+\binom{n}{1}\binom{m}{k-1}+...+\binom{n}{k}\binom{m}{0}=\binom{n+m}{k}$
+    \begin{proof}
+    We can write
+    \[\binom{n}{0}\binom{m}{k}+\binom{n}{1}\binom{m}{k-1}+...+\binom{n}{k}\binom{m}{0}=\sum_{i=0}^k\binom{n}{i}\binom{m}{k-i}x^k.\]
+    Using the binomial theorem:
+    \begin{align*}
+        (1+x)^n(1+x)^m
+        &=\sum_{i=0}^n\binom{n}{i}x^i\sum_{j=0}^m\binom{m}{j}x^j\\
+        &=\sum_{i=0}^n\sum_{j=0}^m\binom{n}{i}\binom{m}{j}x^{i+j}\\
+        &=\sum_{i=0}^n\sum_{k=i}^{i+m}\binom{n}{i}\binom{m}{k-i}x^k&&j=k-i\\
+        &=\sum_{k=0}^{n+m}{\sum_{i=0}^k\binom{n}{i}\binom{m}{k-i}}x^k\tag{1}\label{1}.\\
+        (1+x)^{n+m}
+        &=\sum_{k=0}^{n+m}{\binom{n+m}{k}}x^k\tag{2}\label{2}.
+    \end{align*} 
+    Comparing coefficients of $x^k$ in \eqref{1} and \eqref{2}, we have \[\sum_{i=0}^k\binom{n}{i}\binom{m}{k-i}=\binom{n+m}{k}\] 
+    as desired.
+    \end{proof}
+    \item $\binom{n-1}{k-1}+\binom{n-2}{k-1}+...+\binom{k-1}{k-1}=\binom{n}{k}$
+    \begin{proof}
+    We will prove the above expression using induction on $n$.
+    \par Base case. If $n=1$, then 
+    \[\binom{0}{k-1}=\binom{1}{k}=
+    \begin{cases}
+    1 & k=1\\
+    0 & k>1.
+    \end{cases}\]
+    \par Inductive step. Suppose the case $n=m$ is true: \[\binom{m-1}{k-1}+\binom{m-2}{k-1}+...+\binom{k-1}{k-1}=\binom{m}{k}.\] Then if $n=m+1$, we have
+    \[\binom{m}{k-1}+\underbrace{\binom{m-1}{k-1}+...+\binom{k-1}{k-1}}_{=\binom{m}{k}}=\binom{m}{k-1}+\binom{m}{k}.\]
+    Hence, we only need to show 
+    \[\binom{m}{k-1}+\binom{m}{k}=\binom{m+1}{k}.\]
+    Consider $\binom{m+1}{k}$ as the number of ways to choose $k$ items from a set of $m+1$ items. Then consider a subset of $m$ items, which only excludes one item $i$ from the original $m+1$ items. $\binom{m}{k}$ represents the number of ways to choose $k$ items from $m$, which is equivalent to choosing $k$ items from $m+1$ where item $i$ is excluded. $\binom{m}{k-1}$ represents the number of ways to chooses $k-1$ items from $m$. Adding the item $i$ to the pile of $k-1$ items means that $\binom{m}{k-1}$ equivalently represents choosing $k$ items from $m+1$ where item $i$ is included. Hence, we have $\binom{m}{k-1}+\binom{m}{k}=\binom{m+1}{k}$ as desired.
+    \end{proof}
+\end{enumerate}
+
+
+\section{Problem 2.}
+We will consider a “disease” that infects cells of a chessboard. Initially some number of the 64 cells are infected. Subsequently, the infection spreads according to the following rule: if at least two neighbors of a cell are infected, then the cell gets infected (neighbors share an edge, so each cell has at most four neighbors.) No cell is ever cured. What is the minimum number of cells one can initially infect so that the whole board is eventually infected? It is easy to see that 8 is sufficient in many ways. Prove that 7 is not enough.
+\begin{proof}
+When an additional cell is infected, the total perimeter of the infected cells does not change. We need the total perimeter to be at least $8\times4=32$, which is the perimeter of the chessboard. With $7$ cells, the maximum starting perimeter is $7\times4=28$, which is insufficient.
+\end{proof}
+
+
+\section{Problem 3.}
+\begin{enumerate}[label=(\alph*)]
+    \item Prove that 
+    \[\sigma = \begin{pmatrix}
+    1 & 2 & 3 & 4 & 5 & 6\\
+    6 & 3 & 2 & 4 & 5 & 1\end{pmatrix}\]
+    is a product of transpositions.
+    \begin{proof}
+    We can write the above permutation as the following product of transpositions:
+    \[(1\,6)(2\,3).\]
+    \end{proof}
+    \item Prove that any permutation is a product of transpositions.
+    \label{3(b)}
+    \begin{proof}
+    Every permutation can be written as a product of disjoint cycles. A cycle of form $A=(a_1\,a_2\,...\,a_n)$ can be represented by the following product of transpositions:
+    \[(a_1\,a_2\,...\,a_n)=(a_1\,a_2)(a_2\,a_3)...(a_{n-1}\,a_n).\]
+    Performing this representation for each cycle in the product yields the original permutation.
+    \end{proof}
+    \item Prove that any permutation in $\mathbb{S}_n$ can be written as a finite product of two permutations $(1\,2)$ and $(1\,2\,...\,n)$.
+    \begin{proof}
+    We have from part \ref{3(b)} that any permutation in $\mathbb{S}_n$ is a finite product of transpositions. Any transposition $(a_i\,a_j)$ can be written as a product of the transpositions $(1\,a_i)(1\,a_j)(1\,a_i)$. Furthermore, any transposition of the type $(1\,a)$ can be written as a product of adjacent transpositions. We will prove this by induction:
+    \par Base case. $(1\,2)$ is itself an adjacent transposition.
+    \par Inductive step. Suppose $(1\,a)$ can be written a product of adjacent transpositions. Then $(1\,a+1)=(1\,a)(a\,a+1)(1\,a)$ is also a product of adjacent transpositions.
+    \par Thus, any permutation is a finite product of adjacent transpositions.
+    \par Finally, we can show that any adjacent permutation $(a\,a+1)$ can be written as a product of $(1\,2)$ and $(1\,2\,...\,n)$. Again, we will prove this by induction:
+    \par Base case. $(1\,2)$ is clearly a product of one cycle $(1\,2)$ and no cycles $(1\,2\,...\,n)$.
+    \par Inductive step. Suppose $(a\,a+1)$ can be written as a product of $(1\,2)$ and $(1\,2\,...\,n)$. Then $(1\,2\,...\,n)(a\,a+1)(1\,2\,...\,n)^{-1}=(a+1\,a+2)$.
+    \par Hence, any permutation in $\mathbb{S}_n$ can be written as a finite product of $(1\,2)$ and $(1\,2\,...\,n)$.
+    \end{proof}
+\end{enumerate}
+
+
+\section{Problem 4.}
+Two players take turns placing equally-sized coins on the round table. They are only allowed to put a coin on an empty spot. The first person who cannot make a move loses the game. Find a winning strategy for one of the players.
+\par The player who moves first should place a coin in the center of the table. This strategy will guarantee a win. Wherever the second player places a coin, the first player can mirror that move by placing a coin at the same distance away from the center coin, rotated $180^{\circ}$.
+
+
+\section{Problem 5.}
+Let $G$ be a finite group.
+\begin{enumerate}[label=(\alph*)]
+    \item Prove that for $g_1, g_2, g_3 \in G$, if $g_1g_2 = g_1g_3$ then $g_2 = g_3$.
+    \label{5(a)}
+    \begin{proof}
+    For $g_1 \in G$, there exists $g_1'$ such that $g_1'g_1=e$.
+    \begin{align*}
+        g_1'(g_1g_2) &= g_1'(g_1g_3).\\
+        (g_1'g_1)g_2 &= (g_1'g_1)g_3.\\
+        eg_2 &= eg_3.\\
+        g_2 &= g_3.
+    \end{align*}
+    \end{proof}
+    \item Prove that in the multiplication table of a finite group, every element appears exactly once in each row and once in each column.
+    \begin{proof}
+    In a multiplication table of a finite group, every element occurs on the horizontal and vertical headers.  Suppose, for the sake of contradiction, that an arbitrary element $a$ occurs twice or more in row $b$. Then there exists $c, d \in G$ such that $bc=bd=a$. Thus, by \ref{5(a)}, we have $c=d$. Thus, every element $a$ cannot occur more than once in each row. Similarly, suppose that element $a$ occurs twice or more in column $b$. Then there exists $c, d \in G$ such that $cb=db=a$. Considering $b'$, the inverse of $b$, we have $cbb'=dbb'$, so $c=d$. Thus, every element $a$ cannot occur more than once in each column.
+    \par We must now show that every element appears at least once in each row and column. Given an arbitrary element $a \in G$ and a row $b$, we can find a column $b'a$, such that $b'$ is the inverse of b and $bb'a=ea=a$. Such a column always exists since the group $G$ is closed. Similarly, given element $a \in G$ and a column $b$, we can find a row $ab'$, such that $b'$ is the inverse of b and $ab'b=ae=a$. Such a row always exists since the group $G$ is closed. Thus, every element appears at least once but less than twice in each row and column, so every element must appear exactly once. 
+    \end{proof}
+    \item Prove that for any permutation $\sigma \in \mathbb{S}_n$ there exists $N \in \mathbb{N}$ such that $\sigma^{|N|}=e$.
+    \begin{proof}
+    Any permutation can be a written as a product of disjoint cycles. For a cycle with $n$ elements, one can map all the elements to themselves by applying the permutation an integer multiple of $n$ times. Let $\sigma=A_1A_2...A_n$, where cycle $A_i$ has $a_i$ elements. Then let $N=a_1\times a_2\times...\times a_n$. We have $\sigma^N=A_1^NA_2^N...A_n^N=e$, since all the elements will have been mapped to themselves, producing the identity.
+    \end{proof}
+    \item Prove that for $g \in G$ we have $g^{|G|}=e$.
+    \begin{lemma}\label{5.1}
+    Let $H$ be a subgroup of $G$, and let $x,y\in G$. Then $Hx=Hy$ if and only if $xy^{-1}\in H$, otherwise $Hx$ and $Hy$ are disjoint.
+    \end{lemma}
+    \begin{proof}
+    By closure of a group, if $xy^{-1}\in H$, then $H=Hxy^{-1}$, so multiplying both sides by $y$ gives $Hy=Hx$. Conversely, if $Hx=Hy$, then $x\in Hx$ since there is always an identity element $e\in H$. Then because the $Hx=Hy$, we have $x=h'y$ for some $h'\in H$. Multiplying both sides by $y^{-1}$ implies that $xy^{-1}=h'\in H$.
+    \end{proof}
+    \begin{proof}
+    Now take any $g_1\in G$. Then if $H$ is a subgroup of $G$, then $|Hg_1|=|H|$. If $Hg_1\neq G$, then we can find some $g_2\in G$ such that $g_2 \notin Hg_1$. Multiplying both sides by $g_1^{-1}$ we see that $g_2g_1^{-1} \notin H$, so $Hg_2$ and $Hg_1$ are disjoint by \ref{5.1}. Then $|Hg_1 \cup Hg_2| = 2|H|$. By continuing in this fashion, after $n$ steps for some positive integer $n$, we will eventually have accounted for all of the elements of $G$. Then $|G| = n|H|$ and $G = Hg_1 \cup ... \cup Hg_n$. 
+    \par If we let $H=\{g_1, g_1g, g_1g^2, \dots, g_1g^k\}$, We can see that this forms a graph where for ever vertex, there exists exactly one outgoing and one incoming edge, so this graph must be a cycle. Then $g_1=g_1g^{k+1}$, so $g^{k+1}=g^{|H|}=e$.
+    \par Finally, for $g\in G$,
+    \[g^{|G|}=g^{n|H|}=(g^{|H|})^{n}=e^{n}=e.\]
+    \end{proof}
+\end{enumerate}
+
+
+\section{Problem 6. Erdös-Szekeres theorem}
+Prove that for any $n, m \in \mathbb{N}$ every sequence of $nm+1$ distinct real numbers contains an increasing subsequence of length $n+1$ or a decreasing subsequence of length $m+1$.
+\begin{proof}
+Consider a sequence $\{a_1, a_2,\dots,a_{nm+1}\}$ of real numbers. For each number $a_i$ in the sequence, assign an ordered pair $(x_i,y_i)$, where $x_i$ is the length of the longest increasing subsequence ending with $a_i$ and $y_i$ is the length of the longest decreasing subsequence starting with $a_i$. 
+
+\par We can see that $(x_i,y_i)$ is unique for each $a_i$ by the following cases with any two $a_i, a_j$ such that $i<j$.
+\begin{enumerate}[label=(\arabic*)]
+    \item $a_i<a_j$. Then the increasing subsequence ending at $a_i$ can be extended by $a_j$, so $x_j=x_i+1$.
+    \item $a_i>a_j$. Then the decreasing subsequence starting at $a_j$ can be extended by $a_i$, so $y_i=y_j+1$.
+\end{enumerate}
+\par If there is not at least one increasing subsequence of length $n+1$ or one decreasing subsequence of length $m+1$, then $1\leq x_i\leq n$ and $1\leq y_i\leq m$ for every $(x_i,y_i)$. There are only $nm$ unique pairs $(x_i,y_i)$ satisfying these inequalities, but since there are $nm+1$ elements, at least two pairs are equal, a contradiction. Hence, there is at least one increasing subsequence of length $n+1$ or one decreasing subsequence of length $m+1$.
+\end{proof}
+
+\end{document}

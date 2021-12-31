@@ -1,0 +1,46 @@
+\documentclass{standalone}
+\usepackage{tikz}
+%------------tikz Setup------------
+
+\tikzstyle{ball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=1.3pt]
+\tikzstyle{miniball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=0.5pt]
+\tikzstyle{mminiball} = [circle,shading=ball, ball color=black,
+    minimum size=0.6mm,inner sep=0.1pt]
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{angles, quotes}
+\tikzset{>={Latex[length=2mm,width=1.5mm]}}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{arrows.meta,calc}
+\usetikzlibrary{bending}
+\usetikzlibrary{decorations.markings,shapes.geometric}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\tikzset{-|-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{stealth}}},postaction={decorate}}}
+\tikzset{movearrow/.style 2 args ={
+        decoration={markings,
+    mark= at position {#1} with {\arrow{#2}} ,
+        },
+        postaction={decorate}
+    }
+}
+
+
+\begin{document}
+\begin{tikzpicture}
+\begin{scope}[scale=1]
+    %points
+    \node[ball, label={$O$}] (o) at (0,0) {};
+    \node[ball, label={$A$}] (a) at (-2.5,0) {};
+    \node[ball, label={$B$}] (b) at (-1,0) {};
+    \node[ball, label={$A'$}] (a') at (-5,0) {};
+    \node[ball, label={$B'$}] (b') at (-2,0) {};
+    \draw[dashed] (a') to (o);
+\end{scope}
+\end{tikzpicture}
+\end{document}

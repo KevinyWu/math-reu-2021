@@ -1,0 +1,217 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\setlength{\parskip}{1em}
+
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\title{REU 2021 - Problem Set 2}
+\author{Kevin Y. Wu}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+
+\section{Problem 1.}
+Consider $n$ pairs of points on the segment $AB$, which are symmetric with respect to its center. Half of these points are red, the other are blue. Prove that the sum of distances from the point $A$ to the blue points equals to the sum of distances from the point $B$ to the red points.
+\begin{proof}
+A pair of points has either two red, two blue, or one red and one blue. If there are $n$ pairs of two red points and $m$ pairs of one red and one blue point, then there are $2n+m$ red points and $m$ blue points. To ensure that half the points are red and half are blue, there must also be $n$ pairs of two blue points.
+\par Next, consider the following cases:
+\begin{enumerate}[label=(\arabic*)]
+    \item One blue, one red. By symmetry, we see that if the blue point is distance $x$ away from point $A$, then the red point is distance $x$ away from point $B$.
+    \item Two blue. If the point closer to $A$ is distance $x$ away from $A$, then by symmetry, the other point is distance $\ell-x$ away from $A$, where $\ell$ is the length of $AB$. Thus, the total distance from $A$ to this pair is $x+\ell-x=\ell$.
+    \item Two red. This is the same as the above case.
+\end{enumerate}
+\par Hence, the sum of distances from the point $A$ to the blue points and the sum of distances from the point $B$ to the red points are both $n\ell+mx$.
+\end{proof}
+
+
+\section{Problem 2.}
+\label{Problem 2.}
+Consider a set $2^S$ of subsets of $S=\{1,2,...,n\}$. For two subsets $A,B\in 2^S$, define their symmetric difference 
+\[A\triangle B=(A\cup B)\backslash(A\cap B).\]
+Prove that the set $2^S$ with this operation is a group.
+\begin{proof}
+We will prove that $2^S$ satisfies the four properties of a group.
+\begin{enumerate}[label=(\arabic*)]
+    \item Closure. $A\triangle B$ contains only elements of $A$ and $B$, which are both subsets of $2^S$. Thus, $A\triangle B \subseteq 2^S$. 
+    \item Associativity. We must show that for every $A,B,C\in 2^S$, $(A\triangle B)\triangle C=A\triangle(B\triangle C)$. We can define an function $f$ that maps an element $A\in 2^S$ to a sequence of ones and zeros of length $2^{|S|}$ as
+    \[f(A)=(S_1,S_2,...,S_n):S_i=
+    \begin{cases}
+    0 & i \notin A\\
+    1 & i \in A
+    \end{cases}\]
+    This function $f$ is a bijection because we can map from a sequence of ones and zeros to $A$, i.e. an inverse exists. Hence, $f(A)=f(B)$ if and only if $A=B$ Then if we consider addition in modulo 2 (i.e. $1+1=0$), we can see that 
+    \[f(A)+f(B)=f(A\triangle B).\]
+    Then since addition in modulo 2 is associative,
+    \begin{align*}
+        f((A\triangle B)\triangle C)&=f(A\triangle B)+f(C)\\
+        &=(f(A)+f(B))+f(C)\\
+        &=f(A)+(f(B)+f(C))\\
+        &=f(A)+f(B\triangle C)\\
+        &=f(A\triangle (B\triangle C)).
+    \end{align*}
+    Thus, $(A\triangle B)\triangle C=A\triangle(B\triangle C)$.
+    \item Identity. The identity element is $\varnothing$. We can see that
+    \begin{align*}
+        A\triangle\varnothing&=(A\cup\varnothing)\backslash(A\cap\varnothing)\\
+        &=A\backslash\varnothing\\
+        &=A.
+    \end{align*}
+    We can show that this identity is unique. Suppose there are two identity elements, $e_1$ and $e_2$. By definition of the identity:
+    \[\forall A \in 2^S: Ae_1 = A = e_2A.\]
+    Then $e_1=e_2e_1=e_2$, so $e_1=e_2$.
+    \item Inverse. Every element is its own inverse. That is, for every $A\in 2^S$, $A^{-1}=A$. We can see that
+    \begin{align*}
+        A\triangle A &= (A\cup A)\backslash (A\cap A)\\
+        &=A\backslash A\\
+        &=\varnothing.
+    \end{align*}
+    We can show that each element $A \in 2^S$ is unique. Suppose there are two identity elements, $B$ and $C$. By definition of the inverse:
+    \[\forall A\in 2^S: AB=BA=e, AC=CA=e.\]
+    Then $B=Be=B(AC)=(BA)C=eC=C$, so $B=C$.
+\end{enumerate}
+\end{proof}
+
+
+\section{Problem 3.}
+Let $G$ be a group.
+\begin{enumerate}[label=(\alph*)]
+    \item Prove that for any $g_1,g_2 \in G$ we have $(g_1g_2)^{-1}=g_2^{-1}g_1^{-1}$.
+    \begin{proof}
+    Since $G$ is a group, there exists a unique inverse for every $g\in G$.
+    \begin{align*}
+        (g_1g_2)^{-1}&=g_2^{-1}g_1^{-1}.\\
+        (g_1g_2)^{-1}(g_1g_2)&=(g_2^{-1}g_1^{-1})(g_1g_2).\\
+        (g_1g_2)^{-1}(g_1g_2)&=g_2^{-1}(g_1^{-1}g_1)g_2.\\
+        e&=g_2^{-1}(eg_2).\\
+        e&=g_2^{-1}g_2.\\
+        e&=e.
+    \end{align*}
+    \end{proof}
+    \item $G$ is called \textit{abelian} if for every two elements $g_1,g_2 \in G$ we have $g_1g_2=g_2g_1$. In other words, $G$ is abelian if multiplication is commutative. Prove that the group $2^S$ from Problem \ref{Problem 2.} is abelian.
+    \begin{proof}
+    The union and intersection operations are commutative. Hence, for $A,B\in 2^S$,
+    \begin{align*}
+        A\triangle B&=(A\cup B)\backslash(A\cap B).\\
+        &=(B\cup A)\backslash(B\cap A).\\
+        &=B\triangle A.
+    \end{align*}
+    \end{proof}
+    \item Prove that if $g^2=e$ for any $g\in G$, then $G$ is abelian.
+    \begin{proof}
+    $G$ is a group, so any $g \in G$ has a unique inverse. If $g^2=e$, then every element is its own inverse.
+    \[(ab)(ba)=a(bb)a=a(e)a=a^2=e.\]
+    Thus, $(ab)^{-1} = ba$ and $(ab)^{-1}=ab$, so $ba=ab$.
+    \end{proof}
+\end{enumerate}
+
+
+\section{Problem 4. Inclusion-Exclusion principle}
+Consider $N$ objects and some list $P_1,P_2,...,P_n$ of their properties. Let $N_i$ be the number of objects satisfying $P_i$, $N_{ij}$ be the number of objects satisfying $P_i$ and $P_j$ and so on. Prove that the number of objects satisfying none of these properties is equal to 
+\[N-\sum N_i + \sum_{i_1<i_2} N_{i_1i_2} - \sum_{i_1<i_2<i_3} N_{i_1i_2i_3} +...+(-1)^nN_{123...n}.\]
+\begin{proof}
+We can prove that using this formula, each object that satisfies one or more of these properties is subtracted exactly once. Let $S_i$ be the set of objects satisfying property $P_i$ for $1\leq i\leq n$. Say that some object $A$ is in $k\geq 1$ sets. Without loss of generality, lets these sets be $S_1,S_2,\dots,S_k$. We will complete the proof by induction on $k$.
+\par Base case. If $k=1$, $A$ is subtracted once in the $\sum N_i$ term.
+\par Inductive step. Suppose it is true that $k$ sets are subtracted exactly once. We must prove that $k+1$ sets are also subtracted exactly once. For every set of sets not containing $S_{k+1}$ with size $i$ for $i\geq 1$, there is a set of sets containing $S_{k+1}$ with size $i+1$. In the Inclusion-Exclusion principle, they are counted a total of zero times. However, there is an additional set of sets containing only $S_{k+1}$ that includes $A$, so $A$ is subtracted once from $N$.
+\end{proof}
+
+
+\section{Problem 5.}
+Prove that if we remove two opposite corners from the chessboard, the board cannot be covered by dominoes (Each domino covers two neighboring cells of the chessboard.)
+\begin{proof}
+A domino covers one white square and one black square. Therefore, if the board is to be covered by dominoes with no overlap, there must be an equal amount of black and white squares. Since the board starts out with equal black and white squares, removing two opposite corners which are always the same color, causes there two be two fewer squares of the color removed. Thus, the chessboard cannot be covered.
+\end{proof}
+
+
+\section{Problem 6.}
+Define a sequence of Fibonacci numbers by the formula:
+\begin{align*}
+    &F_0=F_1=1\\
+    &F_{n+2}=F_{n+1}+F_{n} \text{ for } n\geq 0.
+\end{align*}
+\begin{enumerate}[label=(\alph*)]
+    \item Prove that $F_n$ gives the number of ways to present $n$ as a sum of 1 and 2. For instance, $4=1+1+1+1=2+1+1=1+2+1=1+1+2=2+2$, so $F_4=5$.
+    \label{6(a)}
+    \begin{proof}
+    We will prove the statement by induction on $n$.
+    \par Base case. Define $F_0$ to be $1$. $1=1$, and $F_1=1$. $2=1+1=2$, and $F_2=F_1+F_0=2$.
+    \par Inductive step. Suppose $F_n$ and $F_{n-1}$ represents the number of ways to present $n$ and $n-1$, respectively, as ordered sums of $1$ and $2$. Then we must show $F_{n+1}=F_n+F_{n-1}$ represents the number of ways to present $n+1$ as an ordered sum of $1$ and $2$. To achieve $n+1$, we can either add a $1$ at the end of any representation of $n$, of which there are $F_n$ ways, or a $2$ at the end of any representation of $n-1$, of which there are $F_{n-1}$ ways. Thus, $F_{n+1}=F_n+F_{n-1}$, as desired.
+    \end{proof}
+    \item Prove the \textit{Cassini identity}:
+    \[F_{n+1}F_{n-1}-F_n^2=(-1)^{n+1}.\]
+    \begin{proof}
+    We will prove the statement by induction on $n$.
+    \par Base case. We define $F_0=1$ and $F_1=1$. Then 
+    \[F_2F_0-F_1^2=2\times 1-1^2=1=(-1)^2.\]
+    \par Inductive step. Suppose the Cassini identity holds true for $n$. Then we have
+    \[F_{n+1}F_{n-1}-F_n^2=(-1)^{n+1}.\]
+    We must show that 
+    \[F_{n+2}F_n-F_{n+1}^2=(-1)^{n+2}.\]
+    Using the fact that $F_{n+2}=F_{n+1}+F_{n}$, we can simplify:
+    \begin{align*}
+        F_{n+2}F_n-F_{n+1}^2&=(F_{n+1}+F_n)F_n-(F_n+F_{n-1})^2\\
+        &=F_nF_{n+1}+F_n^2-(F_n^2+2F_nF_{n-1}+F_{n-1}^2)\\
+        &=F_n(F_n+F_{n-1})-2F_nF_{n-1}-F_{n-1}^2\\
+        &=F_n^2+F_nF_{n-1}-2F_nF_{n-1}-F_{n-1}^2\\
+        &=F_n^2-F_nF_{n-1}-F_{n-1}^2\\
+        &=F_n^2-F_{n-1}(F_n+F_{n-1})\\
+        &=F_n^2-F_{n+1}F_{n-1}\\
+        &=(-1)(F_{n+1}F_{n-1}-F_n^2)\\
+        &=(-1)(-1)^{n+1}\\
+        &=(-1)^{n+2}.
+    \end{align*}
+    \end{proof}
+    \item Prove that the sum of the elements on any diagonal of Pascal's triangle is a Fibonacci number:
+    \[\sum_{k=0}^{\lfloor\frac{n}{2}\rfloor}\binom{n-k}{k}=F_n.\]
+    \begin{proof}
+    The expression $\sum_{k=0}^{\lfloor\frac{n}{2}\rfloor}\binom{n-k}{k}$ is equivalent to counting the number of ways to present $n$ as a uniquely ordered sum of $1$ and $2$. This is because one can choose $k$ steps of $2$ and $n-2k$ steps of $1$, which can be arranged in $\binom{n-2k+k}{k}=\binom{n-k}{k}$ ways (there are $n-2k+k$ total spots, choosing $k$ to be filled with $1$ and the rest with $2$). There are at least $0$ and at most $\lfloor\frac{n}{2}\rfloor$ steps of $2$ that can be taken, thus, the number of ways is $\sum_{k=0}^{\lfloor\frac{n}{2}\rfloor}\binom{n-k}{k}$, which we showed in \ref{6(a)} equals to $F_n$.
+    \end{proof}
+    \item Consider a generating function 
+    \[f(x)=F_0+F_1x+F_2x^2+....\]
+    Prove that 
+    \[f(x)=\frac{1}{1-x-x^2}.\]
+    \begin{proof}
+    We can rewrite 
+    \[f(x)=F_0+F_1x+F_2x^2+...= \sum_{n=0}^\infty F_nx^n.\]
+    We need to verify $(1-x-x^2)f(x)=1$.
+    \begin{align*}
+        (1-x-x^2)\sum_{n=0}^\infty F_nx^n &= \sum_{n=0}^\infty F_nx^n - \sum_{n=0}^\infty F_nx^{n+1} - \sum_{n=0}^\infty F_nx^{n+2}\\
+        &= \sum_{n=0}^\infty F_nx^n - \sum_{n=1}^\infty F_{n-1}x^n-\sum_{n=2}^\infty F_{n-2}x^n\\
+        &= \underbrace{F_0}_1 + \underbrace{(F_1-F_0)}_{=0}x + \sum_{n=2}^\infty \underbrace{(F_n-F_{n-1}-F_{n-2})}_{=0}x^n\\
+        &= 1.
+    \end{align*}
+    \end{proof}
+    \item Prove the following \textit{Binet's Formula} for Fibonacci numbers:
+    \[F_{n-1}=\frac{\gamma^n-(-\gamma^{-1})^n}{\sqrt{5}}=\frac{1}{\sqrt{5}}\left(\left(\frac{1+\sqrt{5}}{2}\right)^n-\left(\frac{1-\sqrt{5}}{2}\right)^n\right).\]
+    \begin{proof}
+    We see that $(x-\frac{1+\sqrt{5}}{2})(x-\frac{1-\sqrt{5}}{2})=x^2-x-1$, so $\gamma = \frac{1+\sqrt{5}}{2}$ and $-\gamma^{-1} = \frac{1-\sqrt{5}}{2}$ are the roots of $x^2-x-1$. Furthermore, we will show that for either solution of $x^2-x-1=0$, 
+    \[x^n = xF_{n-1}+F_{n-2} \text{ for } n\geq 2.\tag{1}\label{1}\]
+    We can prove the above statement by induction on $n$.
+    \par Base case. Define $F_0=F_1=1$. Then $x^2=x+1$, which is true.
+    \par Inductive step. Assume that $x^{n} = xF_{n-1}+F_{n-2}$. We must show that $x^{n+1} = xF_{n}+F_{n-1}$.
+    \begin{align*} 
+        x^{n+1} &= x^{2}F_{n-1}+xF_{n-2} \\
+        &= (x+1)F_{n-1} + xF_{n-2} \\
+        &= x(F_{n-1}+F_{n-2})+F_{n-1} \\
+        &= xF_{n} + F_{n-1}.
+    \end{align*}
+    By \eqref{1}, we have $\gamma^{n} = \gamma F_{n-1}+F_{n-2}$ and $(-\gamma^{-1})^{n} = (-\gamma^{-1})F_{n-1}+F_{n-2}$. Subtracting gives us $\gamma^n-(-\gamma^{-1})^n=(\gamma-(-\gamma^{-1}))F_{n-1}$. Then since $\frac{1+\sqrt{5}}{2}-\frac{1-\sqrt{5}}{2}=\sqrt{5}$, we have 
+    \[F_{n-1}=\frac{\gamma^n-(-\gamma^{-1})^n}{\gamma-(-\gamma^{-1})}=\frac{\gamma^n-(-\gamma^{-1})^n}{\sqrt{5}}.\]
+    \end{proof}
+\end{enumerate}
+
+
+\end{document}

@@ -1,0 +1,85 @@
+\documentclass{standalone}
+\usepackage{tikz}
+%------------tikz Setup------------
+
+\tikzstyle{ball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=1.3pt]
+\tikzstyle{miniball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=0.5pt]
+\tikzstyle{mminiball} = [circle,shading=ball, ball color=black,
+    minimum size=0.6mm,inner sep=0.1pt]
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{angles, quotes}
+\tikzset{>={Latex[length=2mm,width=1.5mm]}}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{arrows.meta,calc}
+\usetikzlibrary{bending}
+\usetikzlibrary{decorations.markings,shapes.geometric}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\tikzset{-|-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{stealth}}},postaction={decorate}}}
+\tikzset{movearrow/.style 2 args ={
+        decoration={markings,
+    mark= at position {#1} with {\arrow{#2}} ,
+        },
+        postaction={decorate}
+    }
+}
+
+
+\begin{document}
+\begin{tikzpicture}
+\begin{scope}[scale=0.45]
+    %lines
+    \draw [<->] (-1,-1) -- (-1,1);
+    \draw [<->] (1,-1) -- (1,1);
+    \node[above] at (-1,1) {$\ell_1$};
+    \node[above] at (1,1) {$\ell_2$};
+    %points
+    \node[ball, label={$x$}] (x) at (0,0) {};
+    \node[ball, label={$x'$}] (x') at (-2,0) {};
+    \node[ball, label={$x''$}] (x'') at (4,0) {};
+    \draw[dashed] (x') to (x'');
+    %labels
+    \node[below] at (-0.5,0) {$d$};
+    \draw[dashed] (-1,0.8) to (1,0.8);
+    \node[above] at (0,1) {$\frac{|\overrightarrow{v}|}{2}$};
+\end{scope}
+\begin{scope} [xshift=6cm,scale=0.75]
+    %lines
+    \draw [<->] (-1,-1) -- (-1,1);
+    \draw [<->] (1,-1) -- (1,1);
+    \node[above] at (-1,1) {$\ell_1$};
+    \node[above] at (1,1) {$\ell_2$};
+    %points
+    \node[ball, label={$x$}] (x) at (-2,0) {};
+    \node[ball, label={$x'$}] (x') at (0,0) {};
+    \node[ball, label={$x''$}] (x'') at (2,0) {};
+    \draw[dashed] (x) to (x'');
+    %labels
+    \node[below] at (-1.5,0) {$d$};
+    \draw[dashed] (-1,0.8) to (1,0.8);
+    \node[above] at (0,1) {$\frac{|\overrightarrow{v}|}{2}$};
+\end{scope}
+\begin{scope} [xshift=3.5cm,yshift=-2cm,scale=0.75]
+    %lines
+    \draw [<->] (-1,-1) -- (-1,1);
+    \draw [<->] (1,-1) -- (1,1);
+    \node[above] at (-1,1) {$\ell_1$};
+    \node[above] at (1,1) {$\ell_2$};
+    %points
+    \node[ball, label={$x$}] (x) at (2,0) {};
+    \node[ball, label={$x'$}] (x') at (-4,0) {};
+    \node[ball, label={$x''$}] (x'') at (6,0) {};
+    \draw[dashed] (x') to (x'');
+    %labels
+    \node[below] at (1.5,0) {$d$};
+    \draw[dashed] (-1,0.8) to (1,0.8);
+    \node[above] at (0,1) {$\frac{|\overrightarrow{v}|}{2}$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

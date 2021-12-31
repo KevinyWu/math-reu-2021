@@ -1,0 +1,49 @@
+\documentclass{standalone}
+\usepackage{tikz}
+%------------tikz Setup------------
+
+\tikzstyle{ball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=1.3pt]
+\tikzstyle{miniball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=0.5pt]
+\tikzstyle{mminiball} = [circle,shading=ball, ball color=black,
+    minimum size=0.6mm,inner sep=0.1pt]
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{angles, quotes}
+\tikzset{>={Latex[length=2mm,width=1.5mm]}}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{arrows.meta,calc}
+\usetikzlibrary{bending}
+\usetikzlibrary{decorations.markings,shapes.geometric}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\tikzset{-|-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{stealth}}},postaction={decorate}}}
+\tikzset{movearrow/.style 2 args ={
+        decoration={markings,
+    mark= at position {#1} with {\arrow{#2}} ,
+        },
+        postaction={decorate}
+    }
+}
+
+
+\begin{document}
+\begin{tikzpicture}
+\begin{scope}[scale=2]
+    \node[ball,label={left:$O$}] (o) at (0,0) {};   %center
+    \def\deg{45}    %interior angle
+    %original pentagon
+    \foreach [evaluate={
+        \t=int(112.5-\x*\deg);
+        }]\x in {1,2,...,8}
+    {\draw[->] (0:0)--(\t:1) node[ball] (\x) at (\t:1) {};
+    \node[anchor=center] at (\t:1.2) {$A_{\x}$};}
+    \foreach \from/\to in {1/2, 2/3, 3/4, 4/5, 5/6, 6/7, 7/8, 8/1}
+    {\draw (\from) -- (\to);}
+\end{scope}
+\end{tikzpicture}
+\end{document}

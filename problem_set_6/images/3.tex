@@ -1,0 +1,67 @@
+\documentclass{standalone}
+\usepackage{tikz}
+%------------tikz Setup------------
+
+\tikzstyle{ball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=1.3pt]
+\tikzstyle{miniball} = [circle,shading=ball, ball color=black,
+    minimum size=1mm,inner sep=0.5pt]
+\tikzstyle{mminiball} = [circle,shading=ball, ball color=black,
+    minimum size=0.6mm,inner sep=0.1pt]
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{angles, quotes}
+\tikzset{>={Latex[length=2mm,width=1.5mm]}}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{arrows.meta,calc}
+\usetikzlibrary{bending}
+\usetikzlibrary{decorations.markings,shapes.geometric}
+\tikzset{->-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{>}}},postaction={decorate}}}
+\tikzset{-|-/.style={decoration={markings, mark=at position #1 with
+  {\arrow{stealth}}},postaction={decorate}}}
+\tikzset{movearrow/.style 2 args ={
+        decoration={markings,
+    mark= at position {#1} with {\arrow{#2}} ,
+        },
+        postaction={decorate}
+    }
+}
+
+
+\begin{document}
+\begin{tikzpicture}
+\begin{scope}[scale=2.3]
+    \node[ball, label={above:$O$}] (o) at (0,1) {};
+    \node[ball] (1) at (-2,0) {};
+    \node[ball] (2) at (2,0) {};
+    \node[ball] (4) at (-1.5,-0.5) {};
+    \node[ball] (3) at (2.5,-0.5) {};
+    \draw[dashed] (1) to (2);
+    \draw[dashed] (2) to (3);
+    \draw[dashed] (3) to (4);
+    \draw[dashed] (1) to (4);
+    \node[ball] (1a) at (-2,0) {};
+    \node[ball] (2a) at (2,-1.5) {};
+    \node[ball] (4a) at (-1.5,-0.5) {};
+    \node[ball] (3a) at (2.5,-2) {};
+    \draw[dashed] (1a) to (2a);
+    \draw[dashed] (2a) to (3a);
+    \draw[dashed] (3a) to (4a);
+    \draw[dashed] (1a) to (4a);
+    \node[ball, label={above left:$A$}] (A) at (-0.5,-0.25) {};
+    \node[ball, label={above right:$B$}] (B) at (0.5, -0.25) {};
+    \node[ball, label={above right:$M$}] (M) at (0, -0.25) {};
+    \node[ball, label={left:$A'$}] (A') at (-0.65,-0.65) {};
+    \node[ball, label={below right:$B'$}] (B') at (0.93, -1.25) {};
+    \node[ball, label={below right:$M'$}] (M') at (0, -0.9) {};
+    \draw (A) to (B);
+    \draw (A') to (B');
+    \draw (o) to (A');
+    \draw (o) to (B');
+    \draw (o) to (M');
+\end{scope}
+\end{tikzpicture}
+\end{document}

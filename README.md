@@ -1,4 +1,7 @@
 # UChicago Mathematics REU 2021
+
+<img src="https://github.com/KevinyWu/kevinywu.github.io/blob/main/images/research/dollar-game.png" alt="drawing" width="500"/>
+
 I had the pleasure of attending the UChicago Mathematics REU, which was held from June 2021 to August 2021. 
 I attended problem sessions and lectures on combinatorics, projective geometry, and abstract algebra, taught by UChicago professor Daniil Rudenko.
 My final expository paper, was on the Dollar Game on finite graphs, discussing winning algorithms and conditions for winnability.
